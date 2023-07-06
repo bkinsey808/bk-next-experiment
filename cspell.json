@@ -3,7 +3,7 @@
   "ignorePaths": [],
   "dictionaryDefinitions": [],
   "dictionaries": [],
-  "words": ["tailwindcss"],
+  "words": ["NEXTAUTH", "signin", "tailwindcss", "trivago"],
   "ignoreWords": [],
   "import": []
 }
