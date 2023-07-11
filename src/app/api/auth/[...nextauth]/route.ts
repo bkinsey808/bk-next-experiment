@@ -1,18 +1,19 @@
 import NextAuth from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
+
+import {
+  nextAuthProviderList,
+  nextAuthProviderMap,
+} from "@/helpers/nextAuthProvider";
+
+const providers = nextAuthProviderList.map(
+  (provider) => nextAuthProviderMap[provider].provider
+);
 
 const handler = NextAuth({
-  providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID || "",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
-    }),
-  ],
-  // pages: {
-  //   signIn: "/auth/signin",
-  // },
+  providers,
   callbacks: {
     async signIn(userDetail) {
+      console.log(userDetail);
       if (Object.keys(userDetail).length === 0) {
         return false;
       }

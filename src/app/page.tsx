@@ -1,8 +1,8 @@
 import { getServerSession } from "next-auth";
-import Image from "next/image";
 import { redirect } from "next/navigation";
 
-import GoogleButton from "@/components/buttons/GoogleButton";
+import SignInButton from "@/components/buttons/SignInButton";
+import { nextAuthProviderList } from "@/helpers/nextAuthProvider";
 
 export default async function Home() {
   const session = (await getServerSession()) || {};
@@ -14,7 +14,12 @@ export default async function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-around p-24">
       <div className="grid grid-cols-1 gap-y-4 md:grid-cols-2 md:gap-x-6">
-        <GoogleButton />
+        {nextAuthProviderList.map((nextAuthProvider) => (
+          <SignInButton
+            key={nextAuthProvider}
+            nextAuthProvider={nextAuthProvider}
+          />
+        ))}
       </div>
     </main>
   );
