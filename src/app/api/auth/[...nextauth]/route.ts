@@ -1,10 +1,20 @@
-import { kv } from "@vercel/kv";
 import NextAuth, { AuthOptions } from "next-auth";
 
 import {
   nextAuthProviderList,
   nextAuthProviderMap,
 } from "@/helpers/nextAuthProvider";
+import { redis } from "@/helpers/redis";
+
+interface UserData {
+  lastLogin: string;
+  providers: {
+    [provider: string]: {
+      providerAccountId?: string;
+      lastLogin?: string;
+    };
+  };
+}
 
 const providers = nextAuthProviderList.map(
   (provider) => nextAuthProviderMap[provider].provider
@@ -27,8 +37,8 @@ export const authOptions: AuthOptions = {
         return false;
       }
 
-      await kv.set(`${email}.lastLogin`, newLoginDate);
-      await kv.set(`${email}.providers.${provider}`, {
+      await redis.set(`${email}.lastLogin`, newLoginDate);
+      await redis.set(`${email}.providers.${provider}`, {
         providerAccountId,
         lastLogin: newLoginDate,
       });
@@ -41,7 +51,21 @@ export const authOptions: AuthOptions = {
     },
 
     async jwt({ token, user, account }) {
-      return { ...token, ...user, ...account };
+      console.log({ token, user, account });
+      const email = token?.email as string;
+      console.log({ email });
+      if (!email) {
+        return token;
+      }
+
+      const userData = await redis.get<UserData>(email);
+      console.log(JSON.stringify(userData, null, 2));
+
+      return {
+        ...token,
+        ...user,
+        ...account,
+      };
     },
 
     async session({ session, token }) {

@@ -1,5 +1,8 @@
 module.exports = {
-  plugins: ["@trivago/prettier-plugin-sort-imports"],
+  plugins: [
+    "@trivago/prettier-plugin-sort-imports",
+    "prettier-plugin-tailwindcss",
+  ],
   importOrder: [
     // match everything not starting with starting with a letter or @ but not @/
     "^(?!@/)[A-Za-z@].*",

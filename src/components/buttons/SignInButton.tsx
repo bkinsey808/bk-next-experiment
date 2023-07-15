@@ -18,13 +18,13 @@ export default function SignInButton({ nextAuthProvider }: SignInButtonProps) {
   return (
     <button
       className="
+        flex 
+        items-center 
+        rounded 
         border 
         border-slate-300 
-        rounded 
-        px-5 
-        py-4 
-        flex
-        items-center
+        px-5
+        py-4
         "
       onClick={() => signIn(nextAuthProvider)}
     >

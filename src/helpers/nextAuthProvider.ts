@@ -19,6 +19,7 @@ type NextAuthProviderMap = {
   [key in NextAuthProvider]: {
     name: string;
     ProviderIcon: () => JSX.Element;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     provider: OAuthConfig<any>;
   };
 };

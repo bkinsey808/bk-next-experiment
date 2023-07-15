@@ -3,7 +3,11 @@
 import { signOut } from "next-auth/react";
 import type { ClientSafeProvider } from "next-auth/react";
 
-export default function LogoutButton({ auth }: { auth?: ClientSafeProvider }) {
+export default function LogoutButton({
+  auth: _auth,
+}: {
+  auth?: ClientSafeProvider;
+}) {
   return (
     <button
       type="button"

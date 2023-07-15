@@ -1,20 +1,9 @@
-import { kv } from "@vercel/kv";
 import { AuthOptions, Session } from "next-auth";
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
 
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import LogoutButton from "@/components/buttons/LogoutButton";
-
-interface UserData {
-  lastLogin: string;
-  providers: {
-    [provider: string]: {
-      providerAccountId?: string;
-      lastLogin?: string;
-    };
-  };
-}
 
 type CustomSession = Session & {
   user: Session["user"] & {
@@ -38,16 +27,13 @@ export default async function Protected() {
     redirect("/");
   }
 
-  const userData = await kv.get<UserData>(email);
-  console.log(JSON.stringify(userData, null, 2));
-
   return (
-    <main className="max-w-2xl min-h-screen flex flex-col items-center mx-auto">
-      <div className="w-full flex justify-between my-10">
+    <main className="mx-auto flex min-h-screen max-w-2xl flex-col items-center">
+      <div className="my-10 flex w-full justify-between">
         <h1 className="text-2xl font-bold">Protected Page</h1>
         <LogoutButton />
       </div>
-      <pre className="w-full bg-gray-200 p-4 rounded break-words whitespace-pre-wrap">
+      <pre className="w-full whitespace-pre-wrap break-words rounded bg-gray-200 p-4">
         {JSON.stringify(session, null, 2)}
       </pre>
     </main>
