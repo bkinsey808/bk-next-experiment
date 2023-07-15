@@ -1,10 +1,11 @@
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
 
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import LogoutButton from "@/components/buttons/LogoutButton";
 
 export default async function Protected() {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
 
   if (!session) {
     redirect("/");

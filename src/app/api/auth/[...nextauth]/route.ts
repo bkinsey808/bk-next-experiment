@@ -1,4 +1,4 @@
-import NextAuth from "next-auth";
+import NextAuth, { AuthOptions, Session } from "next-auth";
 
 import {
   nextAuthProviderList,
@@ -9,11 +9,11 @@ const providers = nextAuthProviderList.map(
   (provider) => nextAuthProviderMap[provider].provider
 );
 
-const handler = NextAuth({
+export const authOptions: AuthOptions = {
   providers,
   callbacks: {
     async signIn(userDetail) {
-      console.log(userDetail);
+      // console.log(userDetail);
       if (Object.keys(userDetail).length === 0) {
         return false;
       }
@@ -22,7 +22,17 @@ const handler = NextAuth({
     async redirect({ baseUrl }) {
       return `${baseUrl}/protected`;
     },
+
+    async jwt({ token, user, account }) {
+      return { ...token, ...user, ...account };
+    },
+
+    async session({ session, token }) {
+      return { ...session, user: token };
+    },
   },
-});
+};
+
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
