@@ -1,21 +1,12 @@
-import { AuthOptions, Session } from "next-auth";
-import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
 
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import Welcome from "./Welcome";
+import SessionDump from "@/components/SessionDump";
 import LogoutButton from "@/components/buttons/LogoutButton";
-
-type CustomSession = Session & {
-  user: Session["user"] & {
-    provider?: string;
-    providerAccountId?: string;
-  };
-};
+import { getCustomServerSession } from "@/helpers/session";
 
 export default async function Protected() {
-  const session = await getServerSession<AuthOptions, CustomSession>(
-    authOptions
-  );
+  const session = await getCustomServerSession();
 
   if (!session) {
     redirect("/");
@@ -29,13 +20,13 @@ export default async function Protected() {
 
   return (
     <main className="mx-auto flex min-h-screen max-w-2xl flex-col items-center">
-      <div className="my-10 flex w-full justify-between">
-        <h1 className="text-2xl font-bold">Protected Page</h1>
+      <div className="my-10 flex w-full flex-col justify-between">
+        <Welcome />
+
         <LogoutButton />
       </div>
-      <pre className="w-full whitespace-pre-wrap break-words rounded bg-gray-200 p-4">
-        {JSON.stringify(session, null, 2)}
-      </pre>
+
+      <SessionDump />
     </main>
   );
 }

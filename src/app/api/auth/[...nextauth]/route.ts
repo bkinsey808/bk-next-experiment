@@ -1,4 +1,5 @@
 import NextAuth, { AuthOptions } from "next-auth";
+import { OAuthConfig } from "next-auth/providers";
 
 import {
   nextAuthProviderList,
@@ -16,9 +17,22 @@ interface UserData {
   };
 }
 
-const providers = nextAuthProviderList.map(
-  (provider) => nextAuthProviderMap[provider].provider
-);
+const providers = [
+  ...nextAuthProviderList.map(
+    (provider) => nextAuthProviderMap[provider].provider
+  ),
+  {
+    id: "update_user",
+    name: "test",
+    type: "oauth",
+
+    // credentials: {},
+    // authorize(credentials: { user: string }) {
+    //   return { user: JSON.parse(credentials.user) };
+    // },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } as OAuthConfig<any>,
+];
 
 export const authOptions: AuthOptions = {
   providers,
@@ -50,21 +64,31 @@ export const authOptions: AuthOptions = {
       return `${baseUrl}/protected`;
     },
 
-    async jwt({ token, user, account }) {
-      console.log({ token, user, account });
+    async jwt({ token, user, account, trigger, session }) {
       const email = token?.email as string;
-      console.log({ email });
+
       if (!email) {
         return token;
       }
 
-      const userData = await redis.get<UserData>(email);
-      console.log(JSON.stringify(userData, null, 2));
+      const username = await redis.get<UserData>(`${email}.username`);
+      console.log({ username });
+
+      // await redis.del(`${email}.username`);
+
+      if (trigger === "update") {
+        console.log("update case", { session });
+        return {
+          ...token,
+          ...session.user,
+        };
+      }
 
       return {
         ...token,
         ...user,
         ...account,
+        username,
       };
     },
 
