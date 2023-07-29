@@ -1,9 +1,9 @@
 "use client";
 
-import { useSession } from "next-auth/react";
+import { useCustomSession } from "@/helpers/session";
 
 export default function SessionDump() {
-  const { data: session } = useSession();
+  const { data: session } = useCustomSession();
 
   return (
     <pre className="w-full whitespace-pre-wrap break-words rounded bg-gray-200 p-4">

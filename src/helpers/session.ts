@@ -1,11 +1,21 @@
 import { AuthOptions, Session, getServerSession } from "next-auth";
 import { useSession } from "next-auth/react";
 
+import { NextAuthProvider } from "./nextAuthProvider";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+
+export const enum AuthLevel {
+  Admin = "admin",
+  User = "user",
+  Guest = "guest",
+  Blocked = "blocked",
+}
 
 export type CustomSession = Session & {
   user: Session["user"] & {
     username?: string;
+    authLevel?: AuthLevel;
+    providers: [NextAuthProvider];
   };
 };
 

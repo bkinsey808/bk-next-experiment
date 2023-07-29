@@ -1,37 +1,16 @@
 import NextAuth, { AuthOptions } from "next-auth";
-import { OAuthConfig } from "next-auth/providers";
 
 import {
   nextAuthProviderList,
   nextAuthProviderMap,
 } from "@/helpers/nextAuthProvider";
 import { redis } from "@/helpers/redis";
-
-interface UserData {
-  lastLogin: string;
-  providers: {
-    [provider: string]: {
-      providerAccountId?: string;
-      lastLogin?: string;
-    };
-  };
-}
+import { AuthLevel } from "@/helpers/session";
 
 const providers = [
   ...nextAuthProviderList.map(
     (provider) => nextAuthProviderMap[provider].provider
   ),
-  {
-    id: "update_user",
-    name: "test",
-    type: "oauth",
-
-    // credentials: {},
-    // authorize(credentials: { user: string }) {
-    //   return { user: JSON.parse(credentials.user) };
-    // },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } as OAuthConfig<any>,
 ];
 
 export const authOptions: AuthOptions = {
@@ -51,10 +30,18 @@ export const authOptions: AuthOptions = {
         return false;
       }
 
-      await redis.set(`${email}.lastLogin`, newLoginDate);
-      await redis.set(`${email}.providers.${provider}`, {
-        providerAccountId,
-        lastLogin: newLoginDate,
+      const authLevel = await redis.get(`${email}.authLevel`);
+
+      if (authLevel === AuthLevel.Blocked) {
+        return false;
+      }
+
+      await redis.mset({
+        [`${email}.lastLogin`]: newLoginDate,
+        [`${email}.providers.${provider}`]: {
+          providerAccountId,
+          lastLogin: newLoginDate,
+        },
       });
 
       return true;
@@ -64,24 +51,35 @@ export const authOptions: AuthOptions = {
       return `${baseUrl}/protected`;
     },
 
-    async jwt({ token, user, account, trigger, session }) {
+    async jwt({ token, user, account, trigger, session, profile }) {
       const email = token?.email as string;
 
       if (!email) {
         return token;
       }
 
-      const username = await redis.get<UserData>(`${email}.username`);
-      console.log({ username });
+      const [username, authLevel = AuthLevel.Guest] = await redis.mget<
+        [string, AuthLevel]
+      >(`${email}.username`, `${email}.authLevel`);
 
-      // await redis.del(`${email}.username`);
+      switch (trigger) {
+        case "update":
+          return {
+            ...token,
+            ...session.user,
+          };
+        case "signIn": {
+          const provider = account?.provider ?? "unknown";
 
-      if (trigger === "update") {
-        console.log("update case", { session });
-        return {
-          ...token,
-          ...session.user,
-        };
+          return {
+            name: token.name,
+            email: token.email,
+            providers: [provider],
+            signedInProvider: { [provider]: { account, profile, user } },
+            username,
+            authLevel: authLevel ?? AuthLevel.Guest,
+          };
+        }
       }
 
       return {
@@ -89,11 +87,17 @@ export const authOptions: AuthOptions = {
         ...user,
         ...account,
         username,
+        authLevel: authLevel ?? AuthLevel.Guest,
       };
     },
 
     async session({ session, token }) {
       return { ...session, user: token };
+    },
+  },
+  events: {
+    async signOut({ session, token }) {
+      console.log({ session, token });
     },
   },
 };
