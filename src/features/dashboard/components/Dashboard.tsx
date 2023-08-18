@@ -1,11 +1,11 @@
 import { redirect } from "next/navigation";
 
+import LogoutButton from "./LogoutButton";
+import SessionDump from "./SessionDump";
 import Welcome from "./Welcome";
-import SessionDump from "@/components/SessionDump";
-import LogoutButton from "@/components/buttons/LogoutButton";
-import { getCustomServerSession } from "@/helpers/session";
+import { getCustomServerSession } from "@/features/auth/helpers/customSession";
 
-export default async function Protected() {
+export default async function Dashboard() {
   const session = await getCustomServerSession();
 
   if (!session) {

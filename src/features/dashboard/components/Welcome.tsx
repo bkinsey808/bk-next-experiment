@@ -2,12 +2,12 @@
 
 import { signIn } from "next-auth/react";
 
-import { saveUsername } from "./saveUsername";
+import { saveUsername } from "../actions/saveUsername";
 import {
   nextAuthProviderList,
   nextAuthProviderMap,
-} from "@/helpers/nextAuthProvider";
-import { useCustomSession } from "@/helpers/session";
+} from "@/features/auth/helpers/nextAuthProvider";
+import { useCustomSession } from "@/features/auth/hooks/useCustomSession";
 
 export default function Welcome() {
   const { data: session, update } = useCustomSession();

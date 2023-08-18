@@ -1,7 +1,7 @@
 "use server";
 
-import { redis } from "@/helpers/redis";
-import { getCustomServerSession } from "@/helpers/session";
+import { getCustomServerSession } from "@/features/auth/helpers/customSession";
+import { getUsernameKey, redis } from "@/helpers/redis";
 
 export const saveUsername = async (username: string) => {
   const session = await getCustomServerSession();
@@ -11,7 +11,7 @@ export const saveUsername = async (username: string) => {
     return false;
   }
 
-  await redis.set(`${email}.username`, username);
+  await redis.set(getUsernameKey(email), username);
 
   return true;
 };

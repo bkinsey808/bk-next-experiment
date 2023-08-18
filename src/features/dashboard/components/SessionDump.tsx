@@ -1,6 +1,6 @@
 "use client";
 
-import { useCustomSession } from "@/helpers/session";
+import { useCustomSession } from "@/features/auth/hooks/useCustomSession";
 
 export default function SessionDump() {
   const { data: session } = useCustomSession();

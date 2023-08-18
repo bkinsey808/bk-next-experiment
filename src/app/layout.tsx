@@ -2,7 +2,7 @@ import { Inter } from "next/font/google";
 import { ReactNode } from "react";
 
 import "./globals.css";
-import Provider from "@/components/Provider";
+import AuthProvider from "@/features/auth/components/AuthProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,7 +15,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Provider>{children}</Provider>
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );

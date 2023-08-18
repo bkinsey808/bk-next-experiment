@@ -1,11 +1,13 @@
+import { NextApiRequest, NextApiResponse } from "next";
 import NextAuth, { AuthOptions } from "next-auth";
 
+import { jwt } from "@/features/auth/helpers/jwt";
 import {
   nextAuthProviderList,
   nextAuthProviderMap,
-} from "@/helpers/nextAuthProvider";
-import { redis } from "@/helpers/redis";
-import { AuthLevel } from "@/helpers/session";
+} from "@/features/auth/helpers/nextAuthProvider";
+import { signIn } from "@/features/auth/helpers/signIn";
+import { getDashboardPath } from "@/helpers/path";
 
 const providers = [
   ...nextAuthProviderList.map(
@@ -13,82 +15,15 @@ const providers = [
   ),
 ];
 
-export const authOptions: AuthOptions = {
+export const getAuthOptions: (req?: NextApiRequest) => AuthOptions = (
+  _req
+) => ({
   providers,
   callbacks: {
-    async signIn(userDetail) {
-      if (Object.keys(userDetail).length === 0) {
-        return false;
-      }
-
-      const email = userDetail?.user?.email;
-      const provider = userDetail?.account?.provider;
-      const providerAccountId = userDetail?.account?.providerAccountId;
-      const newLoginDate = new Date().toISOString();
-
-      if (!email || !provider) {
-        return false;
-      }
-
-      const authLevel = await redis.get(`${email}.authLevel`);
-
-      if (authLevel === AuthLevel.Blocked) {
-        return false;
-      }
-
-      await redis.mset({
-        [`${email}.lastLogin`]: newLoginDate,
-        [`${email}.providers.${provider}`]: {
-          providerAccountId,
-          lastLogin: newLoginDate,
-        },
-      });
-
-      return true;
-    },
-
+    signIn,
+    jwt,
     async redirect({ baseUrl }) {
-      return `${baseUrl}/protected`;
-    },
-
-    async jwt({ token, user, account, trigger, session, profile }) {
-      const email = token?.email as string;
-
-      if (!email) {
-        return token;
-      }
-
-      const [username, authLevel = AuthLevel.Guest] = await redis.mget<
-        [string, AuthLevel]
-      >(`${email}.username`, `${email}.authLevel`);
-
-      switch (trigger) {
-        case "update":
-          return {
-            ...token,
-            ...session.user,
-          };
-        case "signIn": {
-          const provider = account?.provider ?? "unknown";
-
-          return {
-            name: token.name,
-            email: token.email,
-            providers: [provider],
-            signedInProvider: { [provider]: { account, profile, user } },
-            username,
-            authLevel: authLevel ?? AuthLevel.Guest,
-          };
-        }
-      }
-
-      return {
-        ...token,
-        ...user,
-        ...account,
-        username,
-        authLevel: authLevel ?? AuthLevel.Guest,
-      };
+      return `${baseUrl}${getDashboardPath()}`;
     },
 
     async session({ session, token }) {
@@ -100,8 +35,9 @@ export const authOptions: AuthOptions = {
       console.log({ session, token });
     },
   },
-};
+});
 
-const handler = NextAuth(authOptions);
+const handler = (req: NextApiRequest, res: NextApiResponse) =>
+  NextAuth(req, res, getAuthOptions(req));
 
 export { handler as GET, handler as POST };
