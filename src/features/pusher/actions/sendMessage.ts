@@ -2,7 +2,7 @@
 
 import { pusherServer } from "../helpers/pusherServer";
 
-export const sendMessage = ({
+export const sendMessage = async ({
   channel,
   event,
   message,
@@ -11,7 +11,11 @@ export const sendMessage = ({
   event: string;
   message: string;
 }) => {
-  pusherServer.trigger(channel, event, {
-    message,
-  });
+  try {
+    await pusherServer.trigger(channel, event, {
+      message,
+    });
+  } catch (error) {
+    console.error(error);
+  }
 };
