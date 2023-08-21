@@ -17,8 +17,6 @@ export function middleware(request: NextRequest) {
   console.log(request.method);
   console.log(request.url);
 
-  const origin = request.headers.get("origin");
-  console.log(origin);
   // Display the key/value pairs
   // for (const pair of request.headers.entries()) {
   //   console.log(`${pair[0]}: ${pair[1]}`);
