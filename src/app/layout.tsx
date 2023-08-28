@@ -1,8 +1,11 @@
 import { Inter } from "next/font/google";
+import Script from "next/script";
 import { ReactNode } from "react";
 
 import "./globals.css";
 import AuthProvider from "@/features/auth/components/AuthProvider";
+import DarkModeProvider from "@/features/auth/components/DarkModeProvider";
+import { DARK_MODE_LOCAL_STORAGE_KEY } from "@/helpers/darkMode";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,8 +17,19 @@ export const metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
+      <head>
+        <Script id="test">
+          {`if (localStorage['${DARK_MODE_LOCAL_STORAGE_KEY}'] === 'dark' || (!('${DARK_MODE_LOCAL_STORAGE_KEY}' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                  document.documentElement.classList.add('dark')
+                } else {
+                  document.documentElement.classList.remove('dark')
+                }`}
+        </Script>
+      </head>
       <body className={inter.className}>
-        <AuthProvider>{children}</AuthProvider>
+        <AuthProvider>
+          <DarkModeProvider>{children}</DarkModeProvider>
+        </AuthProvider>
       </body>
     </html>
   );
