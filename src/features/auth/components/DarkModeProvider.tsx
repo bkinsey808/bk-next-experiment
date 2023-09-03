@@ -15,7 +15,7 @@ export default function DarkModeProvider({
   useEffect(() => {
     console.log("is dark mode", isDarkMode);
     if (
-      localStorage.theme === "dark" ||
+      localStorage[DARK_MODE_LOCAL_STORAGE_KEY] === "dark" ||
       (!(DARK_MODE_LOCAL_STORAGE_KEY in localStorage) &&
         window.matchMedia("(prefers-color-scheme: dark)").matches)
     ) {
