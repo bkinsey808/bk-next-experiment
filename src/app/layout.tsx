@@ -27,9 +27,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         </Script>
       </head>
       <body className={inter.className}>
-        <AuthProvider>
-          <DarkModeProvider>{children}</DarkModeProvider>
-        </AuthProvider>
+        <DarkModeProvider>
+          <AuthProvider>{children}</AuthProvider>
+        </DarkModeProvider>
       </body>
     </html>
   );

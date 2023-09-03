@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import LogoutButton from "./LogoutButton";
@@ -27,6 +28,11 @@ export default async function Dashboard() {
       </div>
 
       <SessionDump />
+
+      <br />
+      <Link href="/nested">nested</Link>
+      <br />
+      <Link href="/pusher">pusher</Link>
     </main>
   );
 }

@@ -5,10 +5,15 @@ import usePrefersColorScheme from "use-prefers-color-scheme";
 
 import { DARK_MODE_LOCAL_STORAGE_KEY } from "@/helpers/darkMode";
 
-export default function ClientApp({ children }: { children: ReactNode }) {
+export default function DarkModeProvider({
+  children,
+}: {
+  children: ReactNode;
+}) {
   const isDarkMode = usePrefersColorScheme();
 
   useEffect(() => {
+    console.log("is dark mode", isDarkMode);
     if (
       localStorage.theme === "dark" ||
       (!(DARK_MODE_LOCAL_STORAGE_KEY in localStorage) &&

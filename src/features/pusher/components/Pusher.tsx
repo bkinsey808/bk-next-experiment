@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import { sendMessage } from "../actions/sendMessage";
@@ -53,6 +54,11 @@ export default function PusherPage() {
           ))}
         </ul>
       </div>
+
+      <br />
+      <Link href="/dashboard">dashboard</Link>
+      <br />
+      <Link href="/nested">nested</Link>
     </main>
   );
 }
