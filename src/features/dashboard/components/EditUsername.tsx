@@ -16,40 +16,31 @@ export default function EditUsername() {
 
   const onSubmit = useCallback(
     async (event: FormEvent<HTMLFormElement>) => {
-      console.log("submit");
       event.preventDefault();
       setSubmitting(true);
       const username = event.currentTarget.username.value;
+      const result = await saveUsername(username);
 
-      try {
-        const success = await saveUsername(username);
-
-        if (success) {
-          // update the session
-          await updateCustomSession({
-            ...customSession,
-            user: {
-              ...customSession?.user,
-              username,
-            },
-          });
-        }
-      } catch (error) {
-        if (error instanceof Error) {
-          setUsernameError(error.message);
-        }
+      if (result?.error) {
+        setUsernameError(result?.error);
+      } else {
+        // update the session
+        await updateCustomSession({
+          ...customSession,
+          user: {
+            ...customSession?.user,
+            username,
+          },
+        });
       }
+
       setSubmitting(false);
     },
     [customSession, updateCustomSession]
   );
 
   return (
-    <form
-      onSubmit={(e) => {
-        onSubmit(e);
-      }}
-    >
+    <form onSubmit={onSubmit}>
       <Input
         type="text"
         name="username"

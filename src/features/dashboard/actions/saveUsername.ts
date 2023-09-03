@@ -10,21 +10,21 @@ export const saveUsername = async (username: string) => {
   const oldUsername = session?.user?.username;
 
   if (!email) {
-    throw new Error("No email found in session");
+    return { error: "No email found in session"};
   }
 
   if (hasObscenity(username)) {
-    throw new Error("Username is not available");
+    return { error: "Username is not available"};
   }
 
   const usernameToEmail = await redis.get(getUsernameToEmailKey(username));
 
   if (usernameToEmail && usernameToEmail !== email) {
-    throw new Error("Username already taken");
+    return { error: "Username is not available"};
   }
 
   if (usernameToEmail && usernameToEmail === email) {
-    throw new Error("Same username");
+    return { error: "Same username"};
   }
 
   await redis.set(getUsernameKey(email), username);
@@ -34,6 +34,4 @@ export const saveUsername = async (username: string) => {
   }
 
   await redis.set(getUsernameToEmailKey(username), email);
-
-  return true;
 };
