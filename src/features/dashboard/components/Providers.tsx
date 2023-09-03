@@ -22,6 +22,7 @@ export default function Providers() {
           )
           .map((provider) => {
             const { ProviderIcon, name } = nextAuthProviderMap[provider];
+
             return (
               <li key={provider}>
                 <button
