@@ -1,6 +1,6 @@
 "use client";
 
-import { useCustomSession } from "@/features/auth/hooks/useCustomSession";
+import { useCustomSession } from "@/features/auth/hooks/use-custom-session";
 
 export default function WelcomeHeader() {
   const { data: customSession } = useCustomSession();

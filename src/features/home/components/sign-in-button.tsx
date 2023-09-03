@@ -5,7 +5,7 @@ import { signIn } from "next-auth/react";
 import {
   NextAuthProvider,
   nextAuthProviderMap,
-} from "@/features/auth/helpers/nextAuthProvider";
+} from "@/features/auth/helpers/next-auth-provider";
 
 interface SignInButtonProps {
   nextAuthProvider: NextAuthProvider;

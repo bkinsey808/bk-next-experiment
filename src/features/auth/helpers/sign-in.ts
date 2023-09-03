@@ -1,7 +1,7 @@
 import { AuthOptions } from "next-auth";
 
-import { AuthLevel } from "./authLevel";
-import { NextAuthProvider } from "./nextAuthProvider";
+import { AuthLevel } from "./auth-level";
+import { NextAuthProvider } from "./next-auth-provider";
 import {
   getAuthLevelKey,
   getLastLoginKey,

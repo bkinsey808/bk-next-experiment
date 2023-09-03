@@ -3,8 +3,8 @@ import Script from "next/script";
 import { ReactNode } from "react";
 
 import "./globals.css";
-import AuthProvider from "@/features/auth/components/AuthProvider";
-import DarkModeProvider from "@/features/auth/components/DarkModeProvider";
+import AuthProvider from "@/features/auth/components/auth-provider";
+import DarkModeProvider from "@/features/auth/components/dark-mode-provider";
 import { DARK_MODE_LOCAL_STORAGE_KEY } from "@/helpers/darkMode";
 
 const inter = Inter({ subsets: ["latin"] });

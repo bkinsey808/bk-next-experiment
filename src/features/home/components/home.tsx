@@ -1,8 +1,8 @@
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
-import SignInButton from "./SignInButton";
-import { nextAuthProviderList } from "@/features/auth/helpers/nextAuthProvider";
+import SignInButton from "./sign-in-button";
+import { nextAuthProviderList } from "@/features/auth/helpers/next-auth-provider";
 import { getDashboardPath } from "@/helpers/path";
 
 export default async function Home() {

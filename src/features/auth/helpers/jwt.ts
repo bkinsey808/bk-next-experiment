@@ -1,6 +1,6 @@
 import { AuthOptions } from "next-auth";
 
-import { AuthLevel } from "./authLevel";
+import { AuthLevel } from "./auth-level";
 import { getAuthLevelKey, getUsernameKey, redis } from "@/helpers/redis";
 
 type Jwt = NonNullable<AuthOptions["callbacks"]>["jwt"];

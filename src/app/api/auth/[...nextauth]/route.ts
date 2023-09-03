@@ -5,8 +5,8 @@ import { jwt } from "@/features/auth/helpers/jwt";
 import {
   nextAuthProviderList,
   nextAuthProviderMap,
-} from "@/features/auth/helpers/nextAuthProvider";
-import { signIn } from "@/features/auth/helpers/signIn";
+} from "@/features/auth/helpers/next-auth-provider";
+import { signIn } from "@/features/auth/helpers/sign-in";
 import { getDashboardPath } from "@/helpers/path";
 
 const providers = [

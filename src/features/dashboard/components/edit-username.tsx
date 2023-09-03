@@ -1,8 +1,8 @@
 "use client";
 
-import { useEditUsername } from "../hooks/useEditUsername";
-import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/Input";
+import { useEditUsername } from "../hooks/use-edit-username";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 export default function EditUsername() {
   const { onSubmit, sessionUsername, usernameError, submitting } =

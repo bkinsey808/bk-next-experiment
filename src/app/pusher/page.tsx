@@ -1,3 +1,3 @@
-import Pusher from "@/features/pusher/components/Pusher";
+import Pusher from "@/features/pusher/components/pusher";
 
 export default Pusher;

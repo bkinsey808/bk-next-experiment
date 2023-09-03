@@ -1,7 +1,7 @@
 import { FormEvent, useCallback, useState } from "react";
 
-import { saveUsername } from "../actions/saveUsername";
-import { useCustomSession } from "@/features/auth/hooks/useCustomSession";
+import { saveUsername } from "../actions/save-username";
+import { useCustomSession } from "@/features/auth/hooks/use-custom-session";
 
 export const useEditUsername = () => {
   const { data: customSession, update: updateCustomSession } =

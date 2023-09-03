@@ -1,7 +1,7 @@
 import { type VariantProps, cva } from "class-variance-authority";
 import { InputHTMLAttributes, forwardRef } from "react";
 
-import ControlError from "./ControlError";
+import ControlError from "./control-error";
 import { cn } from "@/lib/utils";
 
 export interface InputProps

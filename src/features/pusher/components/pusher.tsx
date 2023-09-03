@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-import { sendMessage } from "../actions/sendMessage";
+import { sendMessage } from "../actions/send-message";
 import { pusherClient } from "../helpers/pusherClient";
 
 const YOUR_CHANNEL_NAME = "my-channel2";

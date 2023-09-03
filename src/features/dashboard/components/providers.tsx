@@ -5,8 +5,8 @@ import { signIn } from "next-auth/react";
 import {
   nextAuthProviderList,
   nextAuthProviderMap,
-} from "@/features/auth/helpers/nextAuthProvider";
-import { useCustomSession } from "@/features/auth/hooks/useCustomSession";
+} from "@/features/auth/helpers/next-auth-provider";
+import { useCustomSession } from "@/features/auth/hooks/use-custom-session";
 
 export default function Providers() {
   const { data: customSession } = useCustomSession();

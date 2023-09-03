@@ -1,6 +1,6 @@
-import EditUsername from "./EditUsername";
-import Providers from "./Providers";
-import WelcomeHeader from "./WelcomeHeader";
+import EditUsername from "./edit-username";
+import Providers from "./providers";
+import WelcomeHeader from "./welcome-header";
 
 export default function Welcome() {
   return (

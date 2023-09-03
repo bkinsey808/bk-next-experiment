@@ -1,7 +1,7 @@
 import { AuthOptions, Session, getServerSession } from "next-auth";
 
-import { AuthLevel } from "./authLevel";
-import { NextAuthProvider } from "./nextAuthProvider";
+import { AuthLevel } from "./auth-level";
+import { NextAuthProvider } from "./next-auth-provider";
 import { getAuthOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export type CustomSession = Session & {

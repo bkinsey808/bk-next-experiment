@@ -3,9 +3,9 @@ import AzureADProvider from "next-auth/providers/azure-ad";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 
-import GitHubIcon from "@/features/auth/components/provider-icons/GitHubIcon";
-import GoogleIcon from "@/features/auth/components/provider-icons/GoogleIcon";
-import MicrosoftIcon from "@/features/auth/components/provider-icons/MicrosoftIcon";
+import GitHubIcon from "@/features/auth/components/provider-icons/github-icon";
+import GoogleIcon from "@/features/auth/components/provider-icons/google-icon";
+import MicrosoftIcon from "@/features/auth/components/provider-icons/microsoft-icon";
 
 export const enum NextAuthProvider {
   Google = "google",
