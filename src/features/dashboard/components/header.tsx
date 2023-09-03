@@ -17,7 +17,13 @@ export const Header = () => {
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuTrigger>Item One</NavigationMenuTrigger>
+          <NavigationMenuTrigger>
+            <Link href="/" legacyBehavior passHref>
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                Home
+              </NavigationMenuLink>
+            </Link>
+          </NavigationMenuTrigger>
           <NavigationMenuContent>
             <NavigationMenuList data-orientation="vertical">
               <NavigationMenuItem>
@@ -28,9 +34,9 @@ export const Header = () => {
                 </Link>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <Link href="/docs" legacyBehavior passHref>
+                <Link href="/nested" legacyBehavior passHref>
                   <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                    Documentation
+                    Nested
                   </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>

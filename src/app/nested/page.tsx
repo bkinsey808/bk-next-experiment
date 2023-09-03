@@ -1,9 +1,12 @@
 import Link from "next/link";
 
+import NavigationLayout from "@/components/navigation-layout";
+import H1 from "@/components/ui/h1";
+
 const NestedPage = () => {
   return (
-    <div>
-      <h1>Nested Page</h1>
+    <NavigationLayout>
+      <H1>Nested Page</H1>
       <div className="test">
         <h2>parent</h2>
         <div>
@@ -19,7 +22,7 @@ const NestedPage = () => {
       <Link href="/dashboard">dashboard</Link>
       <br />
       <Link href="/pusher">pusher</Link>
-    </div>
+    </NavigationLayout>
   );
 };
 

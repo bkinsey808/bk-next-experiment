@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 
 import { sendMessage } from "../actions/send-message";
 import { pusherClient } from "../helpers/pusherClient";
+import NavigationLayout from "@/components/navigation-layout";
+import H1 from "@/components/ui/h1";
 
 const YOUR_CHANNEL_NAME = "my-channel2";
 const YOUR_EVENT_NAME = "my-event";
@@ -25,8 +27,8 @@ export default function PusherPage() {
   }, [notifications]);
 
   return (
-    <main>
-      <h1>pusher2!</h1>
+    <NavigationLayout>
+      <H1>Pusher</H1>
       <form
         onSubmit={(event) => {
           event.preventDefault();
@@ -59,6 +61,6 @@ export default function PusherPage() {
       <Link href="/dashboard">dashboard</Link>
       <br />
       <Link href="/nested">nested</Link>
-    </main>
+    </NavigationLayout>
   );
 }
