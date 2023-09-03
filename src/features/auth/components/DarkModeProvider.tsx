@@ -13,7 +13,6 @@ export default function DarkModeProvider({
   const isDarkMode = usePrefersColorScheme();
 
   useEffect(() => {
-    console.log("is dark mode", isDarkMode);
     if (
       localStorage[DARK_MODE_LOCAL_STORAGE_KEY] === "dark" ||
       (!(DARK_MODE_LOCAL_STORAGE_KEY in localStorage) &&
