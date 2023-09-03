@@ -1,9 +1,12 @@
 import { type VariantProps, cva } from "class-variance-authority";
 import { InputHTMLAttributes, forwardRef } from "react";
 
+import ControlError from "./ControlError";
 import { cn } from "@/lib/utils";
 
-export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+export interface InputProps
+  extends InputHTMLAttributes<HTMLInputElement>,
+    Omit<VariantProps<typeof inputVariants>, "error"> {
   error: string | undefined;
 }
 
@@ -37,7 +40,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           ref={ref}
           {...props}
         />
-        {error ? <p className="italic text-destructive">{error}</p> : null}
+        <ControlError error={error} />
       </>
     );
   }
