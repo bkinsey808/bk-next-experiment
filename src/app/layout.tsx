@@ -1,3 +1,4 @@
+import { KumaRegistry } from "@kuma-ui/next-plugin/registry";
 import { Inter } from "next/font/google";
 import Script from "next/script";
 import { ReactNode } from "react";
@@ -28,7 +29,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       </head>
       <body className={inter.className}>
         <DarkModeProvider>
-          <AuthProvider>{children}</AuthProvider>
+          <AuthProvider>
+            <KumaRegistry>{children}</KumaRegistry>
+          </AuthProvider>
         </DarkModeProvider>
       </body>
     </html>

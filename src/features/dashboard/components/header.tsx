@@ -44,9 +44,9 @@ export const Header = () => {
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <Link href="/docs" legacyBehavior passHref>
+          <Link href="/presentation" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Documentation
+              Presentation
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>

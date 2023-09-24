@@ -6,13 +6,20 @@ import { useEffect, useState } from "react";
 import { sendMessage } from "../actions/send-message";
 import { pusherClient } from "../helpers/pusherClient";
 import NavigationLayout from "@/components/navigation-layout";
+import { Button } from "@/components/ui/button";
 import H1 from "@/components/ui/h1";
+import { AuthLevel } from "@/features/auth/helpers/auth-level";
+import { useCustomSession } from "@/features/auth/hooks/use-custom-session";
+import { getPositionKey, redis } from "@/helpers/redis";
 
 const YOUR_CHANNEL_NAME = "my-channel2";
 const YOUR_EVENT_NAME = "my-event";
 
 export default function PusherPage() {
   const [notifications, setNotifications] = useState<string[]>([]);
+  const { data: customSession } = useCustomSession();
+
+  console.log({ customSession });
 
   useEffect(() => {
     const channel = pusherClient.subscribe(YOUR_CHANNEL_NAME);
@@ -26,9 +33,17 @@ export default function PusherPage() {
     };
   }, [notifications]);
 
+  const isAdmin = customSession?.user?.authLevel === AuthLevel.Admin;
+
   return (
     <NavigationLayout>
       <H1>Pusher</H1>
+
+      <div>
+        <Button>Next</Button>
+      </div>
+
+      {isAdmin ? <div>Admin</div> : <div>No Admin</div>}
       <form
         onSubmit={(event) => {
           event.preventDefault();

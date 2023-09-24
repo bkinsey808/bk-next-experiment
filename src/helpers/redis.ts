@@ -16,3 +16,5 @@ export const getLinkedProvidersKey = (email: string) =>
 export const getUsernameKey = (email: string) => `${email}.username`;
 
 export const getUsernameToEmailKey = (username: string) => `${username}.email`;
+
+export const getPositionKey = () => `position`;

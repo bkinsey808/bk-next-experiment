@@ -10,6 +10,7 @@
     "deploy": "vercel --prod"
   },
   "dependencies": {
+    "@kuma-ui/core": "^1.4.0",
     "@radix-ui/react-icons": "^1.3.0",
     "@radix-ui/react-navigation-menu": "^1.1.3",
     "@radix-ui/react-slot": "^1.0.2",
@@ -41,5 +42,8 @@
     "tailwindcss-animate": "^1.0.6",
     "typescript": "5.1.6",
     "use-prefers-color-scheme": "^1.1.3"
+  },
+  "devDependencies": {
+    "@kuma-ui/next-plugin": "^1.1.8"
   }
 }
